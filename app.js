@@ -3,12 +3,22 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var ship = require("./models/ship"); 
+
+const connectionString =  
+process.env.MONGO_CON; 
+mongoose = require('mongoose'); 
+mongoose.connect(connectionString,  
+{useNewUrlParser: true, 
+useUnifiedTopology: true}); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var shipRouter = require('./routes/ship');
 var addmodsRouter = require('./routes/addmods');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resource');
+
 
 
 var app = express();
@@ -28,6 +38,7 @@ app.use('/users', usersRouter);
 app.use('/ship', shipRouter);
 app.use('/addmods', addmodsRouter);
 app.use('/selector', selectorRouter);
+app.use('/', resourceRouter);
 
 
 // catch 404 and forward to error handler
@@ -45,5 +56,41 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+async function recreateDB(){ 
+  // Delete everything 
+  await ship.deleteMany(); 
+ 
+  let instance1 = new ship({
+   Company:"A.P. Moller",
+   Cost:35000, 
+   Colour:"Blue"
+  }); 
+  let instance2 = new ship({
+    Company:"Mediterranean",
+    Cost:15000, 
+    Colour:"Red"
+   }); 
+   let instance3 = new ship({
+    Company:"Evergreen Marine",
+    Cost:19000, 
+    Colour:"Black"
+   }); 
+  instance1.save( function(err,doc) { 
+      if(err) return console.error(err); 
+      console.log("First object saved") 
+  }); 
+  instance2.save( function(err,doc) { 
+    if(err) return console.error(err); 
+    console.log("Second object saved") 
+}); 
+instance3.save( function(err,doc) { 
+  if(err) return console.error(err); 
+  console.log("Third object saved") 
+}); 
+} 
+ 
+let reseed = true; 
+if (reseed) { recreateDB();} 
 
 module.exports = app;
