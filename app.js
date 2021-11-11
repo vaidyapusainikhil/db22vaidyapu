@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var ship = require("./models/ship"); 
+var Ship = require("./models/ship"); 
 
 const connectionString =  
 process.env.MONGO_CON; 
@@ -59,19 +59,19 @@ app.use(function(err, req, res, next) {
 
 async function recreateDB(){ 
   // Delete everything 
-  await ship.deleteMany(); 
+  await Ship.deleteMany(); 
  
-  let instance1 = new ship({
+  let instance1 = new Ship({
    Company:"A.P. Moller",
    Cost:35000, 
    Colour:"Blue"
   }); 
-  let instance2 = new ship({
+  let instance2 = new Ship({
     Company:"Mediterranean",
     Cost:15000, 
     Colour:"Red"
    }); 
-   let instance3 = new ship({
+   let instance3 = new Ship({
     Company:"Evergreen Marine",
     Cost:19000, 
     Colour:"Black"
