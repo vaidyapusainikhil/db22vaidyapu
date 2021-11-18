@@ -34,8 +34,16 @@ exports.ship_create_post = async function(req, res) {
 }; 
  
 // Handle ship delete form on DELETE. 
-exports.ship_delete = function(req, res) { 
-    res.send('NOT IMPLEMENTED: ship delete DELETE ' + req.params.id); 
+exports.ship_delete = async function(req, res) { 
+    console.log("delete "  + req.params.id) 
+    try { 
+        result = await Ship.findByIdAndDelete( req.params.id) 
+        console.log("Removed " + result) 
+        res.send(result) 
+    } catch (err) { 
+        res.status(500) 
+        res.send(`{"error": Error deleting ${err}}`); 
+    } 
 }; 
  
 // Handle ship update form on PUT. 
@@ -81,4 +89,56 @@ exports.ship_view_all_Page = async function(req, res) {
         res.status(500); 
         res.send(`{"error": ${err}}`); 
     }   
+};
+ // Handle a show one view with id specified by query 
+exports.ship_view_one_Page = async function(req, res) { 
+    console.log("single view for id "  + req.query.id) 
+    try{ 
+        result = await Ship.findById( req.query.id) 
+        res.render('shipdetail',  
+{ title: 'Ship Detail', toShow: result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
 }; 
+ // Handle building the view for creating a ship. 
+// No body, no in path parameter, no query. 
+// Does not need to be async 
+exports.ship_create_Page =  function(req, res) { 
+    console.log("create view") 
+    try{ 
+        res.render('shipcreate', { title: 'Ship Create'}); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
+// Handle building the view for updating a ship. 
+// query provides the id 
+exports.ship_update_Page =  async function(req, res) { 
+    console.log("update view for item "+req.query.id) 
+    try{ 
+        let result = await Ship.findById(req.query.id) 
+        res.render('shipupdate', { title: 'Ship Update', toShow: result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 
+// Handle a delete one view with id from query 
+exports.ship_delete_Page = async function(req, res) { 
+    console.log("Delete view for id "  + req.query.id) 
+    try{ 
+        result = await Ship.findById(req.query.id) 
+        res.render('shipdelete', { title: 'Ship Delete', toShow: 
+result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+};  
