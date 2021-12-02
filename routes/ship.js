@@ -12,7 +12,7 @@ const secured = (req, res, next) => {
 /* GET ships */ 
 router.get('/', ship_controlers.ship_view_all_Page ); 
 router.get('/detail', ship_controlers.ship_view_one_Page); 
-router.get('/create', ship_controlers.ship_create_Page); 
+router.get('/create',secured, ship_controlers.ship_create_Page); 
 router.get('/update',secured, ship_controlers.ship_update_Page); 
 router.get('/delete',secured, ship_controlers.ship_delete_Page); 
 module.exports = router;

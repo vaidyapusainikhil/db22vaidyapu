@@ -24,9 +24,18 @@ exports.ship_create_post = async function(req, res) {
     document.Cost = req.body.Cost; 
     document.Colour = req.body.Colour; 
     try{ 
-        let result = await document.save(); 
-        res.send(result); 
-    } 
+        if(document.Cost < 1200 || document.Cost >99999){
+            throw new TypeError("Please add cost in between 1200 and 99999")
+          }
+          else if(document.Company.length<=0){
+            throw new TypeError("Company name is Empty")
+          }
+          else{
+            let result = await document.save();
+            res.send(result);
+          }
+        }
+    
     catch(err){ 
         res.status(500); 
         res.send(`{"error": ${err}}`); 

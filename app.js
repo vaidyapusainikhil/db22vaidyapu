@@ -94,17 +94,17 @@ async function recreateDB(){
  
   let instance1 = new Ship({
    Company:"A.P. Moller",
-   Cost:35000, 
+   Cost:20, 
    Colour:"Blue"
   }); 
   let instance2 = new Ship({
     Company:"Mediterranean",
-    Cost:15000, 
+    Cost:30, 
     Colour:"Red"
    }); 
    let instance3 = new Ship({
     Company:"Evergreen Marine",
-    Cost:19000, 
+    Cost:25, 
     Colour:"Black"
    }); 
   instance1.save( function(err,doc) { 
