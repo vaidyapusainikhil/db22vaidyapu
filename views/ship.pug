@@ -1,16 +1,47 @@
+//- extends layout
+
+//- block content
+//-   h1= title
+//-   - let items = results; 
+//-   div(class="container-fluid") 
+//-     div(class="row m-1") 
+//-       each item in items  
+//-         - let destination = `dispatch(\"/ship/update?id=${item._id}\")` 
+//-         div(class="row-sm-2", class="m-1") Ship #{item.Company}(color #{item.Colour}) cost's #{item.Cost} 
+//-           button.btn( class="btn-primary ml-1", onclick= destination) Update 
+   
+//-   script. 
+//-     function dispatch(path){ 
+//-       window.location.href=path 
+//-     } 
 extends layout
 
 block content
   h1= title
-  - let items = results; 
-  div(class="container-fluid") 
-    div(class="row m-1") 
-      each item in items  
-        - let destination = `dispatch(\"/ship/update?id=${item._id}\")` 
-        div(class="row-sm-2", class="m-1") Ship #{item.Company}(color #{item.Colour}) cost's #{item.Cost} 
-          button.btn( class="btn-primary ml-1", onclick= destination) Update 
-   
-  script. 
-    function dispatch(path){ 
-      window.location.href=path 
-    } 
+  
+  p Search Results ship 
+            
+    div(class="container-fluid")
+        div(class="row")
+            - let destination1 = `dispatch(\"/ship/create\")`
+            button.btn(class="btn-success ms-1", style="width: 150px" onclick= destination1) Create            
+            - let ship = results
+            each v, index in ship 
+                - let destination = `dispatch(\"/ship/update?id=${v._id}\")`
+                - let destination2 = `dispatch(\"/ship/delete?id=${v._id}\")`
+                - let destination3 = `dispatch(\"/ship/detail?id=${v._id}\")`
+                div(class="row-sm-2", class="m-1") Item #{v.Company} #{v.cost} #{v.Color}
+                    button.btn(class="btn-primary ms-1", onclick= destination) Update
+                    button.btn(class="btn-info ms-1", onclick= destination3) Detail
+                    button.btn(class="btn-danger ms-1", onclick= destination2) Delete
+    script.
+      function dispatch(path)
+      {
+        window.location.href=path
+      }
+
+    script.                
+        function buy(intemNo)
+        {
+           alert(`you purchased Item ${intemNo+1}`)
+        }

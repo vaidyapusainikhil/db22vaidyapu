@@ -13,13 +13,12 @@ block content
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF",
         crossorigin="anonymous")
   p Welcome to #{title}
-  p I like cricket 
-  button(class=" btn btn-primary", type="button", onclick="update();") Press Me
-  div(id="target") Display
-  a(href="/ship") Ship Page Link
-  script. 
-    let client_count = 0;
-    function update() {
-      client_count = client_count + 1;
-      document.getElementById("target").innerHTML = `Value now ${client_count}`  ;
-      }
+  if (!user) 
+    a(href="/login") Login 
+    br 
+    a(href="/register") Register 
+  if (user) 
+    p You are currently logged in as #{user.username} 
+    a(href="/ships") Take me to ships 
+    br 
+    a(href="/logout") Logout 
